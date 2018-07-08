@@ -27,14 +27,6 @@ public abstract class Repository<ID extends Serializable, T> {
 		return t;
 	}
 	
-	public T update(final T t) throws ErroSistema {
-		beginTransaction();
-		entityManagerFactory.getSession().merge(t);
-		entityManagerFactory.getSession().flush();
-		commitTransaction();
-		return t;
-	}
-	
 	public List<T> findAll() {
 		beginTransaction();
 		final Query namedQuery = entityManagerFactory.getSession().getNamedQuery(getTypeClass().getSimpleName() + ".findAll");
