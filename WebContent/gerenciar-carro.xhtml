@@ -8,36 +8,36 @@
     template="template.xhtml"> 
     
    	<h:form>
-   		<p:toolbar>
-   			<p:toolbarGroup>
-    			<p:commandButton value="Adicionar" action="#{carrosHandler.adicionar()}" update="@form"></p:commandButton>
-    			<p:commandButton value="Buscar" action="#{carrosHandler.buscar()}" update="@form"></p:commandButton>
-   			</p:toolbarGroup>
-   		</p:toolbar>
    		<p:messages autoUpdate="true" showDetail="true"></p:messages>
    		<br />
     	<p:fieldset legend="Objetos">
-    		<p:panelGrid columns="2">
+	   		<p:toolbar>
+	   			<p:toolbarGroup>
+	   				<p:commandButton value="Novo" action="#{carrosHandler.novo()}" update="@form"></p:commandButton>
+	    			<p:commandButton value="Salvar" action="#{carrosHandler.salvar()}" disabled="#{carrosHandler.busca == true}" update="@form"></p:commandButton>
+	    			<p:commandButton value="Buscar" action="#{carrosHandler.buscar()}" update="@form"></p:commandButton>
+	   			</p:toolbarGroup>
+	   		</p:toolbar>
+    		<p:panelGrid columns="2" rendered="#{carrosHandler.busca == false}">
     			<h:outputLabel value="Modelo"></h:outputLabel>
-    			<p:inputText value="#{carrosHandler.carro.modelo}"></p:inputText>
+    			<p:inputText value="#{carrosHandler.entidade.modelo}"></p:inputText>
     			
     			<h:outputLabel value="Fabricante"></h:outputLabel>
-    			<p:inputText value="#{carrosHandler.carro.fabricante}"></p:inputText>
+    			<p:inputText value="#{carrosHandler.entidade.fabricante}"></p:inputText>
     			
     			<h:outputLabel value="Cor"></h:outputLabel>
-    			<p:inputText value="#{carrosHandler.carro.cor}"></p:inputText>
+    			<p:inputText value="#{carrosHandler.entidade.cor}"></p:inputText>
     			
     			<h:outputLabel value="Ano"></h:outputLabel>
-    			<p:calendar value="#{carrosHandler.carro.ano}" mask="99/99/9999" pattern="dd/MM/yyyy"></p:calendar>
-    			
+    			<p:calendar value="#{carrosHandler.entidade.ano}" mask="99/99/9999" pattern="dd/MM/yyyy"></p:calendar>
     		</p:panelGrid>
     		
     		<br />
     		
-    		<p:dataTable value="#{carrosHandler.carros}" var="carro">
+    		<p:dataTable value="#{carrosHandler.entidades}" var="carro" rendered="#{carrosHandler.busca == true}">
     			<p:column>
     				<p:commandButton value="Ediar" action="#{carrosHandler.editar(carro)}" update="@form"></p:commandButton>
-    				<p:commandButton value="Deletar" action="#{carrosHandler.deletar(carro.id)}" update="@form"></p:commandButton>
+    				<p:commandButton value="Deletar" action="#{carrosHandler.deletar(carro)}" update="@form"></p:commandButton>
     			</p:column>
     			<p:column headerText="Modelo" sortBy="#{carro.modelo}">
     				<h:outputText value="#{carro.modelo}"></h:outputText>

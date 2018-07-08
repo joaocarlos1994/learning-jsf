@@ -74,12 +74,12 @@ public class CarroRepositoryImpl implements CarroRepository {
 	}
 
 	@Override
-	public void delete(final Long id) throws ErroSistema {
+	public void delete(final Carro carro) throws ErroSistema {
 		final Connection connection = EntityManagerFactory.getConnection();
 		try {
 			final PreparedStatement prepareStatement = 
 					connection.prepareStatement("delete from carro where id=?");
-			prepareStatement.setLong(1, id.longValue());
+			prepareStatement.setLong(1, carro.getId());
 			prepareStatement.execute();
 			EntityManagerFactory.closeConnection();
 		} catch (SQLException e) {

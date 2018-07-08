@@ -10,7 +10,7 @@ public interface Repository<ID, T> {
 	
 	public List<T> findAll() throws ErroSistema;
 	
-	public void delete(final ID id) throws ErroSistema;
+	public void delete(final T t) throws ErroSistema;
 	
 	public T findOne(final ID id) throws ErroSistema;
 }

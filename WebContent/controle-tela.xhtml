@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    template="template.xhtml"> 
+
+	<h1>Bem vindo ao sistema</h1>
+	
+	<h:form>
+		<p:commandButton value="Mudar para Inserir" update="@form" action="#{carrosHandler.mudarParaInseri()}"></p:commandButton>
+		<p:commandButton value="Mudar para Editar" update="@form" action="#{carrosHandler.mudarParaEdita()}"></p:commandButton>
+		<p:commandButton value="Mudar para Buscar" update="@form" action="#{carrosHandler.mudarParaBusca()}"></p:commandButton>
+		
+		<h:outputText value="Inserir" rendered="#{carrosHandler.inseri}"></h:outputText>
+		<h:outputText value="Editar" rendered="#{carrosHandler.edita}"></h:outputText>
+		<h:outputText value="Buscar" rendered="#{carrosHandler.busca}"></h:outputText>
+	</h:form>
+</ui:decorate>
