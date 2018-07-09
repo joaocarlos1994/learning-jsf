@@ -7,13 +7,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 @Entity
 @Table(name = "carro")
-@NamedQuery(name="Carro.findAll", query="select a from Carro a")
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="carro")
 public class Carro {
 	
 	@Id

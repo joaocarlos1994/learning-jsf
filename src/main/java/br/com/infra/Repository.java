@@ -29,9 +29,10 @@ public abstract class Repository<ID extends Serializable, T> {
 	
 	public List<T> findAll() {
 		beginTransaction();
-		final Query namedQuery = entityManagerFactory.getSession().getNamedQuery(getTypeClass().getSimpleName() + ".findAll");
+		final Query query = entityManagerFactory.getSession().createQuery("FROM " + getTypeClass().getSimpleName());
+		query.setCacheable(true);
 		@SuppressWarnings("unchecked")
-		final List<T> list = namedQuery.list();
+		final List<T> list = query.list();
 		entityManagerFactory.closeConnection();
 		return list;
 	};
@@ -58,6 +59,7 @@ public abstract class Repository<ID extends Serializable, T> {
 	public void commitTransaction() throws ErroSistema {
 		try {
 			entityManagerFactory.getSession().getTransaction().commit();
+			entityManagerFactory.evictCacheEntiy(getTypeClass());
 		} catch (final Exception e) {
 			rollBackTransaction();
 			throw new ErroSistema(e.getMessage(), e);

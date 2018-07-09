@@ -26,6 +26,12 @@ public class EntityManagerFactory {
 		} 
 		return connection.get();
 	}
+	
+	public void evictCacheEntiy(final Class<?> clazz) {
+		if (!Objects.isNull(connection.get()) || connection.get().isOpen()) {
+			sessionFactory.getCache().evictEntityRegion(clazz);
+		}
+	}
 
 	public void closeConnection() {
 		if (!Objects.isNull(connection.get()) || connection.get().isOpen()) {

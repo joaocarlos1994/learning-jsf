@@ -36,6 +36,16 @@
         
         <property name="javax.persistence.validation.mode">AUTO</property>
 
+		<property name="hibernate.generate_statistics">true</property>
+
+		<property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
+		
+		<!-- enable second level cache and query cache -->
+		<property name="hibernate.cache.use_second_level_cache">true</property>
+		<property name="hibernate.cache.use_query_cache">true</property>
+		<property name="net.sf.ehcache.configurationResourceName">/facesmotors.xml</property>
+		
+
         <!-- Mapeamento das entidades -->
         <mapping class="br.com.domain.Carro" />
     </session-factory>
