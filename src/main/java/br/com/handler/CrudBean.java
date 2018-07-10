@@ -5,10 +5,10 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
-import br.com.infra.Repository;
+import br.com.infra.PageRepository;
 import br.com.infra.exception.ErroSistema;
 
-public abstract class CrudBean<E, D extends Repository<Long, E>> {
+public abstract class CrudBean<E, D extends PageRepository<Long, E>> {
 	
 	private String estadoTela = "buscar";
 	
@@ -50,12 +50,12 @@ public abstract class CrudBean<E, D extends Repository<Long, E>> {
 		}
 	}
 	
-	public void buscar() {
+	public PageRepository<Long, E>.Page<E> getBuscar() {
 		if (!isBusca()) {
 			mudarParaBusca(); 
-			return;
+			return null;
 		}
-		this.entidades = getDao().findAll();
+		return getDao().findAllPaged();
 	};
 	
 	public void adicionarMensagem(final String mensagem, final FacesMessage.Severity tipoErro) {

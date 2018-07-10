@@ -8,11 +8,12 @@ import org.hibernate.Query;
 
 import br.com.infra.exception.ErroSistema;
 
-public abstract class Repository<ID extends Serializable, T> {
+public abstract class Repository<ID, T> {
 	
-	private final EntityManagerFactory entityManagerFactory = new EntityManagerFactory();
+	protected final EntityManagerFactory entityManagerFactory = new EntityManagerFactory();
 	
 	public abstract boolean isNew(final T t);
+	public abstract ID getId(final T t);
 
 	public T save(final T t) throws ErroSistema {
 		beginTransaction();
@@ -35,7 +36,7 @@ public abstract class Repository<ID extends Serializable, T> {
 		final List<T> list = query.list();
 		entityManagerFactory.closeConnection();
 		return list;
-	};
+	}
 	
 	public void delete(final T t) throws ErroSistema {
 		beginTransaction();
@@ -46,7 +47,7 @@ public abstract class Repository<ID extends Serializable, T> {
 	public T findOne(final ID id) {
 		beginTransaction();
 		@SuppressWarnings("unchecked")
-		final T t = (T) entityManagerFactory.getSession().get(getTypeClass(), id);
+		final T t = (T) entityManagerFactory.getSession().get(getTypeClass(), (Serializable) id);
 		entityManagerFactory.closeConnection();
 		return t;
 	}
@@ -72,8 +73,9 @@ public abstract class Repository<ID extends Serializable, T> {
 		entityManagerFactory.getSession().getTransaction().rollback();
 	}
 	
+	
 	@SuppressWarnings("unchecked")
-	private Class<T> getTypeClass() {
+	protected Class<T> getTypeClass() {
         final Class<?> clazz = (Class<?>) ((ParameterizedType) this.getClass()
                 .getGenericSuperclass()).getActualTypeArguments()[1];
         return (Class<T>) clazz;

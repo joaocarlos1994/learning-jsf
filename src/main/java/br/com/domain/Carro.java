@@ -1,5 +1,6 @@
 package br.com.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -16,8 +17,10 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "carro")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE, region="carro")
-public class Carro {
+public class Carro implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;

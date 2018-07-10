@@ -34,7 +34,8 @@
     		
     		<br />
     		
-    		<p:dataTable value="#{carrosHandler.entidades}" var="carro" rendered="#{carrosHandler.busca == true}">
+    		<p:dataTable value="#{carrosHandler.buscar}" var="carro" 
+    					rendered="#{carrosHandler.busca == true}" paginator="true" rows="1" lazy="true">
     			<p:column>
     				<p:commandButton value="Ediar" action="#{carrosHandler.editar(carro)}" update="@form"></p:commandButton>
     				<p:commandButton value="Deletar" action="#{carrosHandler.deletar(carro)}" update="@form"></p:commandButton>
