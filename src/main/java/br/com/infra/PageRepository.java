@@ -43,7 +43,9 @@ public abstract class PageRepository<ID, T> extends Repository<ID, T> {
 		private int getCount() {
 			beginTransaction();
 			final Long count = (Long) entityManagerFactory.getSession()
-					.createQuery("select count(m.id) from " + clazz.getSimpleName() + " m").uniqueResult();
+					.createQuery("select count(m.id) from " + clazz.getSimpleName() + " m")
+					.setCacheable(true)
+					.uniqueResult();
 			entityManagerFactory.closeConnection();
 			return count.intValue();
 		}

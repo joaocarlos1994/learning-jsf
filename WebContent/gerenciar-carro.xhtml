@@ -15,7 +15,7 @@
 	   			<p:toolbarGroup>
 	   				<p:commandButton value="Novo" action="#{carrosHandler.novo()}" update="@form"></p:commandButton>
 	    			<p:commandButton value="Salvar" action="#{carrosHandler.salvar()}" disabled="#{carrosHandler.busca == true}" update="@form"></p:commandButton>
-	    			<p:commandButton value="Buscar" action="#{carrosHandler.buscar()}" update="@form"></p:commandButton>
+	    			<p:commandButton value="Buscar com Cache" action="#{carrosHandler.buscar()}" update="@form"></p:commandButton>
 	   			</p:toolbarGroup>
 	   		</p:toolbar>
     		<p:panelGrid columns="2" rendered="#{carrosHandler.busca == false}">
@@ -34,7 +34,43 @@
     		
     		<br />
     		
-    		<p:dataTable value="#{carrosHandler.buscar}" var="carro" 
+    		<h2>This search is second level cache</h2>
+    		<p:dataTable value="#{carrosHandler.entidades}" var="carro" rendered="#{carrosHandler.busca == true}">
+    			<p:column>
+    				<p:commandButton value="Ediar" action="#{carrosHandler.editar(carro)}" update="@form"></p:commandButton>
+    				<p:commandButton value="Deletar" action="#{carrosHandler.deletar(carro)}" update="@form"></p:commandButton>
+    			</p:column>
+    			<p:column headerText="Modelo" sortBy="#{carro.modelo}">
+    				<h:outputText value="#{carro.modelo}"></h:outputText>
+    			</p:column>
+    			<p:column headerText="Fabricante" sortBy="#{carro.fabricante}">
+    				<h:outputText value="#{carro.fabricante}"></h:outputText>
+    			</p:column>
+    			<p:column headerText="Cor" sortBy="#{carro.cor}">
+    				<h:outputText value="#{carro.cor}"></h:outputText>
+    			</p:column>
+    			<p:column headerText="Ano" sortBy="#{carro.ano}">
+    				<h:outputText value="#{carro.ano}"></h:outputText>
+    			</p:column>
+    		</p:dataTable>
+    		
+    		<br />	
+    	</p:fieldset>
+   	</h:form>
+   	
+   	<br />
+   	
+   	<h:form>
+   		<p:fieldset>
+   		
+   			<p:toolbar>
+   				<p:toolbarGroup>
+   					<p:commandButton value="Buscar Páginada" action="#{carrosHandler.pagedCarros}" update="@form"></p:commandButton>
+   				</p:toolbarGroup>
+   			</p:toolbar>
+   		
+   			<h2>This search is Paged</h2>
+    		<p:dataTable id="cached" value="#{carrosHandler.pagedCarros}" var="carro" 
     					rendered="#{carrosHandler.busca == true}" paginator="true" rows="1" lazy="true">
     			<p:column>
     				<p:commandButton value="Ediar" action="#{carrosHandler.editar(carro)}" update="@form"></p:commandButton>
@@ -53,6 +89,6 @@
     				<h:outputText value="#{carro.ano}"></h:outputText>
     			</p:column>
     		</p:dataTable>
-    	</p:fieldset>
+   		</p:fieldset>
    	</h:form>
 </ui:decorate>

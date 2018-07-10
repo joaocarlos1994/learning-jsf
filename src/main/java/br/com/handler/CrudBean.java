@@ -50,13 +50,19 @@ public abstract class CrudBean<E, D extends PageRepository<Long, E>> {
 		}
 	}
 	
-	public PageRepository<Long, E>.Page<E> getBuscar() {
+	public void buscar() {
 		if (!isBusca()) {
 			mudarParaBusca(); 
-			return null;
-		}
+ 			return;
+ 		}
+		this.entidades = getDao().findAll();
+	}
+	
+	public PageRepository<Long, E>.Page<E> getPagedCarros() {
 		return getDao().findAllPaged();
-	};
+ 	}
+	
+	
 	
 	public void adicionarMensagem(final String mensagem, final FacesMessage.Severity tipoErro) {
 		final FacesMessage facesMessage = new FacesMessage(tipoErro, mensagem, null);
