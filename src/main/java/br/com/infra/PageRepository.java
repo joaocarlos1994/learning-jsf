@@ -8,7 +8,7 @@ import org.primefaces.model.SortOrder;
 
 public abstract class PageRepository<ID, T> extends Repository<ID, T> {
 	
-	public Page<T> findAllPaged() {
+	public LazyDataModel<T> findAllPaged() {
 		return new Page<>(getTypeClass());
 	}
 

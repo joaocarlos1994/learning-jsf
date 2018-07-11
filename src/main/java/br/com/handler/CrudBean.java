@@ -5,6 +5,8 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.model.LazyDataModel;
+
 import br.com.infra.PageRepository;
 import br.com.infra.exception.ErroSistema;
 
@@ -58,7 +60,7 @@ public abstract class CrudBean<E, D extends PageRepository<Long, E>> {
 		this.entidades = getDao().findAll();
 	}
 	
-	public PageRepository<Long, E>.Page<E> getPagedCarros() {
+	public  LazyDataModel<E> getPagedCarros() {
 		return getDao().findAllPaged();
  	}
 	
