@@ -7,27 +7,32 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.model.LazyDataModel;
 
-import br.com.infra.PageRepository;
+import br.com.infra.carro.ApplicationLayer;
 import br.com.infra.exception.ErroSistema;
 
-public abstract class CrudBean<E, D extends PageRepository<Long, E>> {
+public abstract class CrudBean<E> {
 	
 	private String estadoTela = "buscar";
 	
 	private E entidade;
 	private List<E> entidades;
+	private final ApplicationLayer<E> application;
 	
-	public abstract D getDao();
 	public abstract E criarNovaEntidade();
 	
+	public CrudBean(final ApplicationLayer<E> application) {
+		super();
+		this.application = application;
+	}
+
 	public void novo() {
 		entidade = criarNovaEntidade();
 		mudarParaInseri();
 	}
-	
+
 	public void salvar() {
 		try {
-			getDao().save(entidade);
+			application.save(entidade);
 			entidade = criarNovaEntidade();
 			adicionarMensagem("Salvo com sucesso", FacesMessage.SEVERITY_INFO);
 			mudarParaBusca();
@@ -43,7 +48,7 @@ public abstract class CrudBean<E, D extends PageRepository<Long, E>> {
 	
 	public void deletar(final E entity) {
 		try {
-			getDao().delete(entity);
+			application.delete(entity);
 			adicionarMensagem("Carro deletado com sucesso", FacesMessage.SEVERITY_INFO);
 			entidades.remove(entity);
 		} catch (final ErroSistema e) {
@@ -57,14 +62,12 @@ public abstract class CrudBean<E, D extends PageRepository<Long, E>> {
 			mudarParaBusca(); 
  			return;
  		}
-		this.entidades = getDao().findAll();
+		this.entidades = application.findAll();
 	}
 	
-	public  LazyDataModel<E> getPagedCarros() {
-		return getDao().findAllPaged();
+	public LazyDataModel<E> getPagedCarros() {
+		return application.findAllPaged();
  	}
-	
-	
 	
 	public void adicionarMensagem(final String mensagem, final FacesMessage.Severity tipoErro) {
 		final FacesMessage facesMessage = new FacesMessage(tipoErro, mensagem, null);
