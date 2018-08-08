@@ -79,14 +79,15 @@ public class SimpleRepository<ID extends Serializable, T> implements Repository<
 	
 	public boolean isNew(final T t) {
 		try {
-			for (final Field field : t.getClass().getFields()) {
+			for (final Field field : t.getClass().getDeclaredFields()) {
 				if (field.isAnnotationPresent(Id.class)) {
+					field.setAccessible(true);
 					final Object object = field.get(t);
-					return object != null;
+					return object == null;
 				} 
 			}
 		} catch (IllegalArgumentException | IllegalAccessException e) {
-			e.printStackTrace();
+			throw new IllegalArgumentException(e);
 		}
 		return false;
 	}
