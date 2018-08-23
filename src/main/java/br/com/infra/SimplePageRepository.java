@@ -7,7 +7,8 @@ import java.util.Map;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
-public class SimplePageRepository<ID extends Serializable, T> extends SimpleRepository<ID, T> implements PageRepository<ID, T> {
+public class SimplePageRepository<ID extends Serializable, T> extends SimpleRepository<ID, T> implements JpaRepository<ID, T> {
+	
 	
 	public LazyDataModel<T> findAllPaged() {
 		return new Page<>(getTypeClass());

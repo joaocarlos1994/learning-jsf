@@ -2,7 +2,10 @@ package br.com.infra;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Proxy;
 import java.util.List;
 
 import javax.persistence.Id;
@@ -13,7 +16,7 @@ import br.com.infra.exception.ErroSistema;
 
 public class SimpleRepository<ID extends Serializable, T> implements Repository<ID, T> {
 	
-	protected final EntityManagerFactory entityManagerFactory = new EntityManagerFactory();
+	protected final EntityManagerFactory entityManagerFactory = EntityManagerFactory.getInstance();
 
 	@Override
 	public T save(final T t) throws ErroSistema {
@@ -92,6 +95,18 @@ public class SimpleRepository<ID extends Serializable, T> implements Repository<
 		return false;
 	}
 	
+	
+	@SuppressWarnings("unchecked")
+	public <E extends Repository<ID, T>> E getInstance(final Class<? extends Repository<ID, T>> repositoryInterface) throws InstantiationException, IllegalAccessException {
+		final SimpleRepository<ID, T> simpleRepository = this;
+		final Object repository = Proxy.newProxyInstance(repositoryInterface.getClassLoader(), new Class[] { repositoryInterface }, new InvocationHandler() {
+			@Override
+			public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
+				return method.invoke(simpleRepository, args);
+			}
+		});
+		return (E) repository;
+	}	
 	
 	@SuppressWarnings("unchecked")
 	protected Class<T> getTypeClass() {

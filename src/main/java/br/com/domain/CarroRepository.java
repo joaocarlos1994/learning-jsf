@@ -1,7 +1,7 @@
 package br.com.domain;
 
-import br.com.infra.SimplePageRepository;
+import br.com.infra.Repository;
 
-public class CarroRepository extends SimplePageRepository<Long, Carro> {
+public interface CarroRepository extends Repository<Long, Carro> {
 
 }

@@ -10,13 +10,21 @@ import org.hibernate.service.ServiceRegistry;
 
 public class EntityManagerFactory {
 	
+	private static EntityManagerFactory entityManagerFactory;
 	private final SessionFactory sessionFactory;
 	private ThreadLocal<Session> connection = new ThreadLocal<Session>();
 
-	public EntityManagerFactory() {
+	private EntityManagerFactory() {
 		final Configuration configuracao = new Configuration().configure();
         final ServiceRegistry registro = new StandardServiceRegistryBuilder().applySettings(configuracao.getProperties()).build();
         this.sessionFactory = configuracao.buildSessionFactory(registro);
+	}
+	
+	public static EntityManagerFactory getInstance() {
+		if (entityManagerFactory == null) {
+			entityManagerFactory = new EntityManagerFactory();
+		} 
+		return entityManagerFactory;
 	}
 
 

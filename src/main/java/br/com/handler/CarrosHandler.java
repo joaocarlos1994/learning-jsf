@@ -10,7 +10,7 @@ import br.com.domain.CarroApplicationLayer;
 @SessionScoped
 public class CarrosHandler extends CrudBean<Carro> {
 
-	public CarrosHandler() {
+	public CarrosHandler() throws InstantiationException, IllegalAccessException {
 		super(new CarroApplicationLayer());
 	}
 	
